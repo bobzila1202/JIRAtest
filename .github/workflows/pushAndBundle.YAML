@@ -1,0 +1,69 @@
+name: Push Commit and Bundle Files into ZIP
+
+on:
+  repository_dispatch:
+    types: [jira_status_update]  # Custom event when JIRA status is updated
+
+jobs:
+  push_and_bundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Set up Git configuration
+      - name: Set up Git configuration
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Step 2: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 3: Find the latest commit linked to JIRA issue
+      - name: Find latest commit linked to JIRA issue
+        id: find_commit
+        run: |
+
+          ISSUE_KEY=${{ github.event.client_payload.issue_key }}
+          
+          # Find the latest commit with the JIRA issue key in the commit message
+          LATEST_COMMIT=$(git log --grep="$ISSUE_KEY" --format="%H" -n 1)
+          
+          echo "Latest commit for issue $ISSUE_KEY - $LATEST_COMMIT"
+          echo "commit_hash=$LATEST_COMMIT" >> $GITHUB_ENV  # Store the commit hash as an environment variable
+
+      # Step 4: Identify files changed in the latest commit
+      - name: Identify files changed in the latest commit
+        id: get_changed_files
+        run: |
+
+
+          # Get the list of files changed in the latest commit
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r $LATEST_COMMIT)
+          echo "Changed files in commit $LATEST_COMMIT:"
+          echo "$CHANGED_FILES"
+          
+          # Save the changed files to an environment variable
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
+
+      # Step 5: Bundle only the changed files into a ZIP file
+      - name: Bundle changed files into a ZIP file
+        run: |
+
+          # Convert the newline-separated list of changed files into arguments for the `zip` command
+          zip_filename="entities_${{ github.event.client_payload.issue_key }}_$(date +'%Y%m%d%H%M%S').zip"
+          zip $zip_filename ${{ env.changed_files }} || echo "No files to zip"
+          echo "zip_filename=$zip_filename" >> $GITHUB_ENV
+
+      # Step 6: Commit and push the ZIP file to the target branch
+      - name: Commit and push ZIP file to target branch
+        run: |
+          git add $zip_filename
+          git commit -m "Add bundled ZIP file for JIRA issue update" || echo "No changes to commit"
+          git push origin main 
+        # Push to the target branch (adjust if necessary)
+
+      # Step 7: Upload the ZIP as an artifact (optional)
+      # - name: Upload ZIP to Artifactory
+      #   run: |
+      #     curl -u ${{ secrets.ARTIFACTORY_API_KEY }} -T ${{ env.zip_filename }} "https://${{ secrets.ARTIFACTORY_URL }}/artifactory/${{ secrets.ARTIFACTORY_REPO }}/${{ env.zip_filename }}"
