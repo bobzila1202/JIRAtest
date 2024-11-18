@@ -41,7 +41,7 @@ jobs:
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$LATEST_COMMIT")
           echo "Changed files in commit $LATEST_COMMIT:"
           echo: "$CHANGED_FILES"
-          lmjiuasas
+          lmjiuasasdxsads
           # Save the changed files to an environment variable
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
 
