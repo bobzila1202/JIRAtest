@@ -36,9 +36,9 @@ jobs:
         id: get_changed_files
         run: |
 
-          echo "LATEST_COMMIT: $LATEST_COMMIT"
+          echo "LATEST_COMMIT: ${{ env.commit_hash }}"
           # Get the list of files changed in the latest commit
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$LATEST_COMMIT")
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${{ env.commit_hash }}")
           echo "Changed files in commit $LATEST_COMMIT:"
           echo: "$CHANGED_FILES"
           
