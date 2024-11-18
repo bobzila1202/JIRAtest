@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       # Step 3: Find the latest commit linked to JIRA issue
       - name: Find latest commit linked to JIRA issue
