@@ -38,7 +38,7 @@ jobs:
 
           echo "LATEST_COMMIT: ${{ env.commit_hash }}"
           # Get the list of files changed in the latest commit
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${{ env.commit_hash }}"
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${{ env.commit_hash }}")
           
           # Save the changed files to an environment variable
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
@@ -51,6 +51,11 @@ jobs:
           zip_filename="entities_${{ github.event.client_payload.issue_key }}_$(date +'%Y%m%d%H%M%S').zip"
           zip $zip_filename ${{ env.changed_files }} || echo "No files to zip"
           echo "zip_filename=$zip_filename" >> $GITHUB_ENV
+
+      - name: Verify ZIP file exists
+        run: |
+          ls -l $zip_filename
+          echo "ZIP file exists: $(test -e $zip_filename && echo 'yes' || echo 'no')"
 
       # Step 6: Commit and push the ZIP file to the target branch
       - name: Commit and push ZIP file to target branch
