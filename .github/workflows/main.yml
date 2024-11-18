@@ -42,7 +42,7 @@ jobs:
 
           echo "LATEST_COMMIT: ${{ env.commit_hash }}"
           # Get the list of files changed in the latest commit
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${{ env.commit_hash }}" | tr '\n' ' ')
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${{ env.commit_hash }}")
 
           CHANGED_FILES=$(echo "$CHANGED_FILES" | grep -vE '^\.github/workflows/')
 
