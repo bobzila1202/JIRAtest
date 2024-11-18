@@ -47,6 +47,7 @@ jobs:
       - name: Bundle changed files into a ZIP file
         run: |
 
+          echo "Changed files: ${{ env.changed_files }}"
           # Convert the newline-separated list of changed files into arguments for the `zip` command
           zip_filename="entities_${{ github.event.client_payload.issue_key }}_$(date +'%Y%m%d%H%M%S').zip"
           zip $zip_filename ${{ env.changed_files }} || echo "No files to zip"
