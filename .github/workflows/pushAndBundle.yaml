@@ -28,8 +28,7 @@ jobs:
           
           # Find the latest commit with the JIRA issue key in the commit message
           LATEST_COMMIT=$(git log --grep="$ISSUE_KEY" --format="%H" -n 1)
-          
-          echo "Latest commit for issue $ISSUE_KEY - $LATEST_COMMIT"
+          echo "LATEST_COMMIT: $LATEST_COMMIT"
           echo "commit_hash=$LATEST_COMMIT" >> $GITHUB_ENV  # Store the commit hash as an environment variable
 
       # Step 4: Identify files changed in the latest commit
@@ -39,7 +38,7 @@ jobs:
 
 
           # Get the list of files changed in the latest commit
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r $LATEST_COMMIT)
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$LATEST_COMMIT" HEAD)
           echo "Changed files in commit $LATEST_COMMIT:"
           echo "$CHANGED_FILES"
           
