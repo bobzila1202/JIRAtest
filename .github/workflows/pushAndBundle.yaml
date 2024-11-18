@@ -1,7 +1,7 @@
 name: Push Commit and Bundle Files into ZIP
 
 on:
-  repository_dispatch:
+  workflow_dispatch:
     types: [jira_status_update]  # Custom event when JIRA status is updated
 
 jobs:
