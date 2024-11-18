@@ -46,7 +46,7 @@ jobs:
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
 
       # Step 5: Bundle only the changed files into a ZIP file
-      - - name: Bundle changed files into a ZIP file
+      - name: Bundle changed files into a ZIP file
         run: |
           zip_filename="entities_${{ github.event.client_payload.issue_key }}_$(date +'%Y%m%d%H%M%S').zip"
           echo "ZIP filename: $zip_filename"
