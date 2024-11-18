@@ -1,6 +1,6 @@
 let ebrimaMoney = 2
 
-if(ebrimaMoney>233322323){
+if(ebrimaMoney>2333223){
     console.log("I'm rich")
 } else {
     console.log("Yo Balram help me out please")
