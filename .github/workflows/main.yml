@@ -32,7 +32,18 @@ jobs:
           
           # Find the latest commit with the JIRA issue key in the commit message
           LATEST_COMMIT=$(git log --grep="$ISSUE_KEY" --format="%H" -n 1)
+          COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%s")
+          
           echo "LATEST_COMMIT: $LATEST_COMMIT"
+          echo "Commit Message: $COMMIT_MESSAGE"
+
+          if [[ "$COMMIT_MESSAGE" != *"$ISSUE_KEY"* ]]; then
+            echo "Commit message does not contain the JIRA issue key: $ISSUE_KEY"
+            exit 0  # Exit the workflow if the commit message does not match the JIRA issue key
+          fi
+
+
+
           echo "commit_hash=$LATEST_COMMIT" >> $GITHUB_ENV  # Store the commit hash as an environment variable
 
       # Step 4: Identify files changed in the latest commit
