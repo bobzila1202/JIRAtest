@@ -36,10 +36,11 @@ jobs:
         id: get_changed_files
         run: |
 
+          echo "LATEST_COMMIT: $LATEST_COMMIT"
           # Get the list of files changed in the latest commit
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$LATEST_COMMIT")
           echo "Changed files in commit $LATEST_COMMIT:"
-          echo "$CHANGED_FILES"
+          echo: "$CHANGED_FILES"
           
           # Save the changed files to an environment variable
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
