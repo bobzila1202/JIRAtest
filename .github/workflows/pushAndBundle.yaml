@@ -35,7 +35,10 @@ jobs:
       - name: Identify files changed in the latest commit
         id: get_changed_files
         run: |
-
+          if [ -z "$LATEST_COMMIT" ]; then
+        echo "Error: Latest commit hash is empty"
+        exit 1
+      fi
 
           # Get the list of files changed in the latest commit
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "$LATEST_COMMIT")
