@@ -18,6 +18,8 @@ jobs:
       # Step 2: Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       # Step 3: Find the latest commit linked to JIRA issue
       - name: Find latest commit linked to JIRA issue
@@ -38,7 +40,7 @@ jobs:
 
           echo "LATEST_COMMIT: ${{ env.commit_hash }}"
           # Get the list of files changed in the latest commit
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only HEAD)
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${{ env.commit_hash }}")
           echo "Changed files: $CHANGED_FILES"
           # Save the changed files to an environment variable
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
