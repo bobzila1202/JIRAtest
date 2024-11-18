@@ -38,7 +38,7 @@ jobs:
 
           echo "LATEST_COMMIT: ${{ env.commit_hash }}"
           # Get the list of files changed in the latest commit
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only "${{ env.commit_hash }}")
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only HEAD)
           echo "Changed files: $CHANGED_FILES"
           # Save the changed files to an environment variable
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
