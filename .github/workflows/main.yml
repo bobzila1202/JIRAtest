@@ -23,6 +23,20 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'latest'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm playwright install
+
+      - name: Run playwright tests
+        run: |
+          npx playwright test tests
+
       # Step 3: Find the latest commit linked to JIRA issue
       - name: Find latest commit linked to JIRA issue
         id: find_commit
@@ -33,6 +47,8 @@ jobs:
           # Find the latest commit with the JIRA issue key in the commit message
           LATEST_COMMIT=$(git log --grep="$ISSUE_KEY" --format="%H" -n 1)
           COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%s")
+
+
           
           echo "LATEST_COMMIT: $LATEST_COMMIT"
           echo "Commit Message: $COMMIT_MESSAGE"
@@ -96,7 +112,7 @@ jobs:
         run: |
           git add ${{env.zip_filename}}
           git commit -m "Add bundled ZIP file for JIRA issue update" || echo "No changes to commit"
-          git push origin main 
+          git push origin main
         # Push to the target branch (adjust if necessary)
 
       # Step 7: Upload the ZIP as an artifact (optional)
