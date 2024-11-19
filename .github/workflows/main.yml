@@ -59,7 +59,7 @@ jobs:
 
           echo "Changed files (excluding workflows): $CHANGED_FILES"
           # Save the changed files to an environment variable
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
+          echo "changed_files=$CHANGED_FILES | tr '\n' ' '" >> $GITHUB_ENV
 
       # Step 5: Bundle only the changed files into a ZIP file
       - name: Bundle changed files into a ZIP file
@@ -69,11 +69,21 @@ jobs:
 
           # Properly handle the space-separated file names
           for file in ${{ env.changed_files }}; do
-            zip -r $zip_filename "$file"
+            if [ -e "$file" ]; then
+              zip -r $zip_filename "$file"
+            else
+              echo "Warning: File '$file' does not exist or is excluded"
+            fi
           done
 
           # Verify the ZIP file contents
-          zipinfo $zip_filename || echo "No files zipped"
+          if [ -f "$zip_filename" ]; then
+            echo "ZIP file created successfully:"
+            zipinfo $zip_filename
+          else
+            echo "No files were zipped"
+          fi
+
           echo "zip_filename=$zip_filename" >> $GITHUB_ENV
 
       - name: Verify ZIP file exists
