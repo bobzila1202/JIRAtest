@@ -1,1 +1,1 @@
-let cat ="meoew"
+let cat ="meow"

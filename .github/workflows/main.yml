@@ -59,7 +59,7 @@ jobs:
 
           echo "Changed files (excluding workflows): $CHANGED_FILES"
           # Save the changed files to an environment variable
-          echo "changed_files=$CHANGED_FILES | tr '\n' ' '" >> $GITHUB_ENV
+          echo "changed_files=$(echo "$CHANGED_FILES" | tr '\n' ' ')" >> $GITHUB_ENV
 
       # Step 5: Bundle only the changed files into a ZIP file
       - name: Bundle changed files into a ZIP file
