@@ -46,7 +46,7 @@ jobs:
           
           # Find the latest commit with the JIRA issue key in the commit message
           LATEST_COMMIT=$(git log --all --grep="$ISSUE_KEY" --format="%H" -n 1)
-          COMMIT_MESSAGE=$(git log -n 1 --pretty=format:"%s")
+          COMMIT_MESSAGE=$(git log --format="%s" -n 1 $LATEST_COMMIT)
 
 
           
