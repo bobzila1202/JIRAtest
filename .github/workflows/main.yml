@@ -111,7 +111,7 @@ jobs:
       - name: Commit and push ZIP file to target branch
         run: |
           git checkout main
-          git merge ${{ github.head_ref }} --no-ff -m "Merge ${GITHUB_REF##*/} into main"
+          git merge ${{ github.ref }} --no-ff -m "Merge ${GITHUB_REF##*/} into main"
           git add ${{env.zip_filename}}
           git commit -m "Add bundled ZIP file for JIRA issue update" || echo "No changes to commit"
           git push origin main
