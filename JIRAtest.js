@@ -1,4 +1,4 @@
-let ebrimaMoney = 2
+let ebrimaMoney = 22
 
 if(ebrimaMoney>236){
     console.log("I'm rich")
