@@ -6,7 +6,7 @@ on:
 
 jobs:
   push_and_bundle:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
 
     steps:
       # Step 1: Set up Git configuration
@@ -28,7 +28,7 @@ jobs:
       - name: Find latest commit linked to JIRA issue
         id: find_commit
         run: |
-          bash -c '
+          
           ISSUE_KEY=${{ github.event.client_payload.issue_key }}
           
           # Find the latest commit with the JIRA issue key in the commit message
@@ -44,7 +44,7 @@ jobs:
           fi
 
           echo "commit_hash=$LATEST_COMMIT" >> $GITHUB_ENV  # Store the commit hash as an environment variable
-          '
+          
 
       - name: Determine the branch containing the commit
         id: find_branch
