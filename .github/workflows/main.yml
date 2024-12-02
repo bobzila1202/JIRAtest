@@ -42,7 +42,7 @@ jobs:
             echo "Commit message does not contain the JIRA issue key: $ISSUE_KEY"
             exit 0  # Exit the workflow if the commit message does not match the JIRA issue key
           fi
-
+          echo "commit_message=$COMMIT_MESSAGE" >> $GITHUB_ENV # Store the commit message as an environment variable
           echo "commit_hash=$LATEST_COMMIT" >> $GITHUB_ENV  # Store the commit hash as an environment variable
           
 
@@ -92,7 +92,7 @@ jobs:
       # Step 5: Bundle only the changed files into a ZIP file
       - name: Bundle changed files into a ZIP file
         run: |
-          zip_filename="entities_${{ github.event.client_payload.issue_key }}_$(date +'%Y%m%d%H%M%S').zip"
+          zip_filename="entities_${{ github.event.client_payload.issue_key }}_${{env.commit_message}}_$(date +'%Y%m%d%H%M%S').zip"
           echo "ZIP filename: $zip_filename"
 
           # Properly handle the space-separated file names
