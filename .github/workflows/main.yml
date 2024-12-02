@@ -133,4 +133,4 @@ jobs:
         run: |
           curl -u "rvijayan:${{ secrets.ARTIFACTORY_PASS}}" \
             -T "${{ env.zip_filename }}" \
-            "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9//${{ env.zip_filename }}"
+            "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9/${{ env.zip_filename }}"
