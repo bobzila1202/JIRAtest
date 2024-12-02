@@ -1,1 +1,1 @@
-let dog = "wooooof"
+let dog = "wof"
