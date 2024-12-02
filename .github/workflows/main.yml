@@ -129,7 +129,8 @@ jobs:
           git push origin main
         # Push to the target branch (adjust if necessary)
 
-      # Step 7: Upload the ZIP as an artifact (optional)
-      # - name: Upload ZIP to Artifactory
-      #   run: |
-      #     curl -u ${{ secrets.ARTIFACTORY_API_KEY }} -T "${{ env.zip_filename }}" "https://${{ secrets.ARTIFACTORY_URL }}/artifactory/${{ secrets.ARTIFACTORY_REPO }}/"${{ env.zip_filename }}""
+      - name: Upload ZIP to Artifactory
+        run: |
+          curl -u "${{ secrets.ARTIFACTORY_API_KEY }}" \
+            -T "${{ env.zip_filename }}" \
+            "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9//${{ env.zip_filename }}"
