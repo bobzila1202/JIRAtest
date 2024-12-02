@@ -116,8 +116,8 @@ jobs:
 
       - name: Verify ZIP file exists
         run: |
-          ls -l ${{env.zip_filename}}
-          echo "ZIP file exists: $(test -e ${{env.zip_filename}} && echo 'yes' || echo 'no')"
+          ls -l "${{env.zip_filename}}"
+          echo "ZIP file exists: $(test -e "${{env.zip_filename}}" && echo 'yes' || echo 'no')"
 
       # Step 6: Commit and push the ZIP file to the target branch
       - name: Commit and push ZIP file to target branch
