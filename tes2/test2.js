@@ -1,1 +1,1 @@
-let cow = "moooooooooooooooooo"
+let cow = "mo"
