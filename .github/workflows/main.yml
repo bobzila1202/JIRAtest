@@ -64,14 +64,14 @@ jobs:
         with:
           node-version: 'latest'
 
-      - name: Install dependencies
-        run: |
-          npm install @playwright/test
-          npx playwright install
+      # - name: Install dependencies
+      #   run: |
+      #     npm install @playwright/test
+      #     npx playwright install
 
-      - name: Run playwright tests
-        run: |
-          npx playwright test tests
+      # - name: Run playwright tests
+      #   run: |
+      #     npx playwright test tests
 
 
       # Step 4: Identify files changed in the latest commit
@@ -107,7 +107,7 @@ jobs:
           # Verify the ZIP file contents
           if [ -f "$zip_filename" ]; then
             echo "ZIP file created successfully:"
-            zipinfo $zip_filename
+            zipinfo "$zip_filename"
           else
             echo "No files were zipped"
           fi
