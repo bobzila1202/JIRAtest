@@ -131,6 +131,6 @@ jobs:
 
       - name: Upload ZIP to Artifactory
         run: |
-          curl -u "${{ secrets.ARTIFACTORY_API_KEY }}" \
+          curl -u "rvijayan:${{ secrets.ARTIFACTORY_PASS}}" \
             -T "${{ env.zip_filename }}" \
             "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9//${{ env.zip_filename }}"
