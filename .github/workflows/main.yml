@@ -92,7 +92,7 @@ jobs:
       # Step 5: Bundle only the changed files into a ZIP file
       - name: Bundle changed files into a ZIP file
         run: |
-          zip_filename="entities_${{env.commit_message}}_$(date +'%Y%m%d%H%M%S').zip"
+          zip_filename="entities_${{env.commit_message}}_$(date +'%Y_%m_%d_%H_%M_%S').zip"
           echo "ZIP filename: $zip_filename"
 
           # Properly handle the space-separated file names
