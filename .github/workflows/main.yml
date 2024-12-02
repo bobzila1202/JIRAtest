@@ -98,7 +98,7 @@ jobs:
           # Properly handle the space-separated file names
           for file in ${{ env.changed_files }}; do
             if [ -e "$file" ]; then
-              zip -r $zip_filename "$file"
+              zip -r "$zip_filename" "$file"
             else
               echo "Warning: File '$file' does not exist or is excluded"
             fi
