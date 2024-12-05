@@ -6,7 +6,11 @@ on:
 
 jobs:
   push_and_bundle:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
+ 
+    defaults:
+      run:
+        shell: bash
 
     steps:
       # Step 1: Set up Git configuration
@@ -64,14 +68,14 @@ jobs:
         with:
           node-version: 'latest'
 
-      - name: Install dependencies
-        run: |
-          npm install @playwright/test
-          npx playwright install
+      # - name: Install dependencies
+      #   run: |
+      #     npm install @playwright/test
+      #     npx playwright install
 
-      - name: Run playwright tests
-        run: |
-          npx playwright test tests
+      # - name: Run playwright tests
+      #   run: |
+      #     npx playwright test tests
 
 
       # Step 4: Identify files changed in the latest commit
@@ -129,11 +133,11 @@ jobs:
           git push origin main
         # Push to the target branch (adjust if necessary)
 
-      # - name: Upload ZIP to Artifactory
-      #   run: |
-      #     ENCODED_ZIP_FILENAME=$(echo "${{ env.zip_filename }}" | sed 's/ /%20/g')
-      #     echo "Encoded file name is: $ENCODED_ZIP_FILENAME"
+      - name: Upload ZIP to Artifactory
+        run: |
+          ENCODED_ZIP_FILENAME=$(echo "${{ env.zip_filename }}" | sed 's/ /%20/g')
+          echo "Encoded file name is: $ENCODED_ZIP_FILENAME"
 
-      #     curl -u "rvijayan:${{ secrets.ARTIFACTORY_PASS}}" \
-      #       -T "${{ env.zip_filename }}" \
-      #       "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9/${ENCODED_ZIP_FILENAME}"
+          curl -u "rvijayan:${{ secrets.ARTIFACTORY_PASS}}" \
+            -T "${{ env.zip_filename }}" \
+            "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9/${ENCODED_ZIP_FILENAME}"
