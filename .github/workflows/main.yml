@@ -6,7 +6,7 @@ on:
 
 jobs:
   push_and_bundle:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
  
     defaults:
       run:
@@ -74,8 +74,21 @@ jobs:
       #     npx playwright install
 
       # - name: Run playwright tests
+      #   id: playwright_tests
       #   run: |
       #     npx playwright test tests
+
+       # Send Playwright Tests Success Notification (if tests pass)
+    #   - name: Send Playwright Tests Success Notification
+    #     if: steps.playwright_tests.outcome == 'success'
+    #     run: |
+    #       echo "Playwright tests passed successfully. Sending success notification."
+
+    #  # Send Playwright Tests Failure Notification (if tests fail)
+    #   - name: Send Playwright Tests Failure Notification
+    #     if: steps.playwright_tests.outcome == 'failure'
+    #     run: |
+    #       echo "Playwright tests failed. Sending failure notification."
 
 
       # Step 4: Identify files changed in the latest commit
@@ -133,11 +146,19 @@ jobs:
           git push origin main
         # Push to the target branch (adjust if necessary)
 
-      - name: Upload ZIP to Artifactory
-        run: |
-          ENCODED_ZIP_FILENAME=$(echo "${{ env.zip_filename }}" | sed 's/ /%20/g')
-          echo "Encoded file name is: $ENCODED_ZIP_FILENAME"
+      # - name: Upload ZIP to Artifactory
+      #   run: |
+      #     ENCODED_ZIP_FILENAME=$(echo "${{ env.zip_filename }}" | sed 's/ /%20/g')
+      #     echo "Encoded file name is: $ENCODED_ZIP_FILENAME"
 
-          curl -u "rvijayan:${{ secrets.ARTIFACTORY_PASS}}" \
-            -T "${{ env.zip_filename }}" \
-            "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9/${ENCODED_ZIP_FILENAME}"
+      #     curl -u "rvijayan:${{ secrets.ARTIFACTORY_PASS}}" \
+      #       -T "${{ env.zip_filename }}" \
+      #       "http://vmwl8125.asn.com:8082/artifactory/SPDM_INT_V12_V9/${ENCODED_ZIP_FILENAME}"
+
+      # - name: Upload ZIP to ThingWorx Repo
+      #   run: |
+      #     curl -X POST "https://asnppasjn74.preprod-asn.com:8443/Thingworx/FileRepositories/SystemRepository" \
+      #     -H "Content-Type: multipart/form-data" \
+      #     -H "AppKey: ${{secrets.THINGWORX_APP_KEY}}" \
+      #     -F "${{env.zip_filename}}" \
+      #     -F "path=/Test"
