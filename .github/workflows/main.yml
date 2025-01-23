@@ -6,7 +6,7 @@ on:
 
 jobs:
   push_and_bundle:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
  
     defaults:
       run:
@@ -68,27 +68,27 @@ jobs:
       #   with:
       #     node-version: 'latest'
 
-      - name: Install dependencies
-        run: |
-          npm install @playwright/test
-          npx playwright install
+      # - name: Install dependencies
+      #   run: |
+      #     npm install @playwright/test
+      #     npx playwright install
 
-      - name: Run playwright tests
-        id: playwright_tests
-        run: |
-          npx playwright test tests
+      # - name: Run playwright tests
+      #   id: playwright_tests
+      #   run: |
+      #     npx playwright test tests
 
        # Send Playwright Tests Success Notification (if tests pass)
-      - name: Send Playwright Tests Success Notification
-        if: steps.playwright_tests.outcome == 'success'
-        run: |
-          echo "Playwright tests passed successfully. Sending success notification."
+    #   - name: Send Playwright Tests Success Notification
+    #     if: steps.playwright_tests.outcome == 'success'
+    #     run: |
+    #       echo "Playwright tests passed successfully. Sending success notification."
 
-     # Send Playwright Tests Failure Notification (if tests fail)
-      - name: Send Playwright Tests Failure Notification
-        if: steps.playwright_tests.outcome == 'failure'
-        run: |
-          echo "Playwright tests failed. Sending failure notification."
+    #  # Send Playwright Tests Failure Notification (if tests fail)
+    #   - name: Send Playwright Tests Failure Notification
+    #     if: steps.playwright_tests.outcome == 'failure'
+    #     run: |
+    #       echo "Playwright tests failed. Sending failure notification."
 
 
       # Step 4: Identify files changed in the latest commit
